@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from "react"
-import { isValidStellarAddress } from "@/lib/utils"
+import { isValidStellarAddress } from "@/lib/stellar-address"
 
 const STORAGE_KEY = "stellarlock:address-book"
 
@@ -82,9 +82,7 @@ export function useAddressBook(): AddressBook {
       // Avoid duplicates by address
       if (prev.some((e) => e.address === trimmedAddress)) {
         return prev.map((e) =>
-          e.address === trimmedAddress
-            ? { ...e, label: trimmedLabel, updatedAt: Date.now() }
-            : e,
+          e.address === trimmedAddress ? { ...e, label: trimmedLabel, updatedAt: Date.now() } : e,
         )
       }
       return [...prev, entry]
@@ -100,9 +98,7 @@ export function useAddressBook(): AddressBook {
 
     setEntries((prev) =>
       prev.map((e) =>
-        e.id === id
-          ? { ...e, label: trimmedLabel, address: trimmedAddress, updatedAt: Date.now() }
-          : e,
+        e.id === id ? { ...e, label: trimmedLabel, address: trimmedAddress, updatedAt: Date.now() } : e,
       ),
     )
     return true
@@ -112,58 +108,52 @@ export function useAddressBook(): AddressBook {
     setEntries((prev) => prev.filter((e) => e.id !== id))
   }, [])
 
-  const find = useCallback(
-    (address: string) => entries.find((e) => e.address === address),
-    [entries],
-  )
+  const find = useCallback((address: string) => entries.find((e) => e.address === address), [entries])
 
   const exportJson = useCallback((): string => {
     return JSON.stringify(entries, null, 2)
   }, [entries])
 
-  const importJson = useCallback(
-    (json: string): { imported: number; errors: number } => {
-      let imported = 0
-      let errors = 0
-      try {
-        const parsed: unknown = JSON.parse(json)
-        if (!Array.isArray(parsed)) return { imported: 0, errors: 1 }
+  const importJson = useCallback((json: string): { imported: number; errors: number } => {
+    let imported = 0
+    let errors = 0
+    try {
+      const parsed: unknown = JSON.parse(json)
+      if (!Array.isArray(parsed)) return { imported: 0, errors: 1 }
 
-        setEntries((prev) => {
-          const next = [...prev]
-          for (const item of parsed as unknown[]) {
-            const entry = typeof item === "object" && item !== null ? (item as Record<string, unknown>) : null
-            if (
-              entry &&
-              typeof entry.label === "string" &&
-              typeof entry.address === "string" &&
-              isValidStellarAddress(entry.address.trim())
-            ) {
-              const address = entry.address.trim()
-              const exists = next.some((e) => e.address === address)
-              if (!exists) {
-                next.push({
-                  id: generateId(),
-                  label: entry.label.trim(),
-                  address,
-                  createdAt: typeof entry.createdAt === "number" ? entry.createdAt : Date.now(),
-                  updatedAt: Date.now(),
-                })
-                imported++
-              }
-            } else {
-              errors++
+      setEntries((prev) => {
+        const next = [...prev]
+        for (const item of parsed as unknown[]) {
+          const entry = typeof item === "object" && item !== null ? (item as Record<string, unknown>) : null
+          if (
+            entry &&
+            typeof entry.label === "string" &&
+            typeof entry.address === "string" &&
+            isValidStellarAddress(entry.address.trim())
+          ) {
+            const address = entry.address.trim()
+            const exists = next.some((e) => e.address === address)
+            if (!exists) {
+              next.push({
+                id: generateId(),
+                label: entry.label.trim(),
+                address,
+                createdAt: typeof entry.createdAt === "number" ? entry.createdAt : Date.now(),
+                updatedAt: Date.now(),
+              })
+              imported++
             }
+          } else {
+            errors++
           }
-          return next
-        })
-      } catch {
-        errors++
-      }
-      return { imported, errors }
-    },
-    [],
-  )
+        }
+        return next
+      })
+    } catch {
+      errors++
+    }
+    return { imported, errors }
+  }, [])
 
   return { entries, add, update, remove, find, exportJson, importJson }
 }

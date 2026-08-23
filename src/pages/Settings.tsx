@@ -4,7 +4,8 @@ import { BookUser, Plus, Pencil, Trash2, Check, Download, Upload, Search, Bell, 
 import { Button } from "@/components/ui/Button"
 import { Input, Label } from "@/components/ui/Input"
 import { Card } from "@/components/ui/Card"
-import { isValidStellarAddress, shortAddress } from "@/lib/utils"
+import { shortAddress } from "@/lib/utils"
+import { isValidStellarAddress } from "@/lib/stellar-address"
 import { useAddressBook, type AddressBookEntry } from "@/hooks/useAddressBook"
 import { NotificationPreferences } from "@/components/ui/NotificationPreferences"
 import { startOnboardingTour } from "@/components/onboarding/OnboardingTour"
@@ -24,8 +25,7 @@ export function Settings() {
 
   const filtered = book.entries.filter(
     (e) =>
-      e.label.toLowerCase().includes(search.toLowerCase()) ||
-      e.address.toLowerCase().includes(search.toLowerCase()),
+      e.label.toLowerCase().includes(search.toLowerCase()) || e.address.toLowerCase().includes(search.toLowerCase()),
   )
 
   function handleAdd() {
@@ -111,12 +111,7 @@ export function Settings() {
                 <Download className="h-4 w-4" />
                 Export
               </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => importRef.current?.click()}
-                title="Import from JSON"
-              >
+              <Button variant="outline" size="sm" onClick={() => importRef.current?.click()} title="Import from JSON">
                 <Upload className="h-4 w-4" />
                 Import
               </Button>
@@ -216,7 +211,7 @@ export function Settings() {
                 <BookUser className="mx-auto mb-3 h-10 w-10 text-muted-foreground/40" />
                 <p className="text-sm text-muted-foreground">
                   {book.entries.length === 0
-                    ? "No saved addresses yet. Click \"Add Address\" to save your first beneficiary."
+                    ? 'No saved addresses yet. Click "Add Address" to save your first beneficiary.'
                     : "No addresses match your search."}
                 </p>
               </div>
@@ -252,21 +247,13 @@ export function Settings() {
                                   value={editAddress}
                                   onChange={(e) => setEditAddress(e.target.value)}
                                   className={
-                                    editAddress && !isValidStellarAddress(editAddress)
-                                      ? "border-destructive"
-                                      : ""
+                                    editAddress && !isValidStellarAddress(editAddress) ? "border-destructive" : ""
                                   }
                                 />
                               </div>
-                              {error && (
-                                <p className="col-span-2 text-xs text-destructive">{error}</p>
-                              )}
+                              {error && <p className="col-span-2 text-xs text-destructive">{error}</p>}
                               <div className="col-span-2 flex justify-end gap-2">
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  onClick={() => setEditId(null)}
-                                >
+                                <Button variant="ghost" size="sm" onClick={() => setEditId(null)}>
                                   Cancel
                                 </Button>
                                 <Button size="sm" onClick={handleEditSave}>

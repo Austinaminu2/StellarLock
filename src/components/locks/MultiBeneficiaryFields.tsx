@@ -2,7 +2,7 @@ import { Plus, Trash2 } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { Input, Label } from "@/components/ui/Input"
 import { Button } from "@/components/ui/Button"
-import { isValidStellarAddress } from "@/lib/utils"
+import { isValidStellarAddress } from "@/lib/stellar-address"
 import type { SplitBeneficiary } from "@/lib/split-lock"
 
 const MAX_BENEFICIARIES = 10
@@ -88,9 +88,7 @@ export function MultiBeneficiaryFields({ beneficiaries, onChange }: Props) {
       {!isValid && beneficiaries.length >= 2 && (
         <p className="text-xs text-destructive">{t("splitLock.totalShareError")}</p>
       )}
-      {beneficiaries.length < 2 && (
-        <p className="text-xs text-muted-foreground">{t("splitLock.minBeneficiaries")}</p>
-      )}
+      {beneficiaries.length < 2 && <p className="text-xs text-muted-foreground">{t("splitLock.minBeneficiaries")}</p>}
 
       {beneficiaries.length < MAX_BENEFICIARIES && (
         <Button type="button" variant="outline" size="sm" onClick={add} className="self-start">

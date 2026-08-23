@@ -6,7 +6,6 @@ import {
   TransactionBuilder,
   BASE_FEE,
   nativeToScVal,
-  StrKey,
   scValToNative,
   xdr,
 } from "@stellar/stellar-sdk"
@@ -353,18 +352,9 @@ export async function submitCallWithHash<T = void>(
 
 // ── Address helpers ─────────────────────────────────────────────────────────
 
-export function isValidStellarContractAddress(address: string): boolean {
-  return StrKey.isValidContract(address.trim())
-}
-
-export function isValidStellarPublicKey(address: string): boolean {
-  return StrKey.isValidEd25519PublicKey(address.trim())
-}
-
-export function isValidStellarAddress(address: string): boolean {
-  const trimmed = address.trim()
-  return StrKey.isValidEd25519PublicKey(trimmed) || StrKey.isValidContract(trimmed)
-}
+// Defined in @/lib/stellar-address so they can be imported without pulling in the
+// env validation and RPC client this module sets up at import time.
+export { isValidStellarAddress, isValidStellarContractAddress, isValidStellarPublicKey } from "@/lib/stellar-address"
 
 // ── Cost estimation ───────────────────────────────────────────────────────────
 

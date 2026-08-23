@@ -68,11 +68,6 @@ export function formatDateTime(timestamp: number): string {
   })
 }
 
-/** Returns true for valid 56-character Stellar contract (C…) or account (G…) addresses. */
-export function isValidStellarAddress(addr: string): boolean {
-  return addr.length === 56 && (addr.startsWith("C") || addr.startsWith("G"))
-}
-
 /** Extracts a readable message from any thrown value. */
 export function formatError(err: unknown): string {
   if (err instanceof Error) return err.message
