@@ -69,6 +69,35 @@ describe("CreateTokenLockForm Validation Rules", () => {
     expect(submitButton).toBeEnabled()
   })
 
+  it("keeps the user's unlock date when the vesting template is switched back to Custom", async () => {
+    const user = userEvent.setup()
+    render(<CreateTokenLockForm />)
+
+    const unlockInput = screen.getByLabelText(/unlock date/i)
+    const chosen = new Date()
+    chosen.setDate(chosen.getDate() + 45)
+    const chosenDate = chosen.toISOString().slice(0, 10)
+
+    await user.type(unlockInput, chosenDate)
+    expect(unlockInput).toHaveValue(chosenDate)
+
+    const templateSelect = screen.getByLabelText(/vesting schedule/i)
+
+    // Picking a template overwrites the date with the template-derived one...
+    await user.selectOptions(templateSelect, "linear1y")
+    expect(unlockInput).not.toHaveValue(chosenDate)
+    const templateDate = (unlockInput as HTMLInputElement).value
+    expect(templateDate).not.toBe("")
+
+    // ...and switching between templates keeps updating it.
+    await user.selectOptions(templateSelect, "linear2y")
+    expect((unlockInput as HTMLInputElement).value).not.toBe(templateDate)
+
+    // Going back to Custom restores what the user picked instead of blanking it.
+    await user.selectOptions(templateSelect, "none")
+    expect(unlockInput).toHaveValue(chosenDate)
+  })
+
   it("stays quiet on a pristine form", () => {
     render(<CreateTokenLockForm />)
     expect(screen.queryByText(/problem/i)).not.toBeInTheDocument()

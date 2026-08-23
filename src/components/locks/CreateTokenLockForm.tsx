@@ -70,6 +70,10 @@ export function CreateTokenLockForm() {
   ])
   const [cooldownRemaining, setCooldownRemaining] = useState(0)
   const cooldownRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  // Last unlock date the user chose themselves (typed or via a preset button), as
+  // opposed to one auto-filled by a vesting template. Restored when they switch the
+  // template dropdown back to "Custom" so their own choice isn't silently wiped.
+  const userUnlockDateRef = useRef("")
   const [addressBookOpen, setAddressBookOpen] = useState(false)
 
   const COOLDOWN_SECONDS = 60
@@ -230,7 +234,9 @@ export function CreateTokenLockForm() {
   }, [validTokenAddress, address, amount, beneficiary, unlockTs, vesting])
 
   function applyPreset(days: number) {
-    setUnlockDate(new Date(Date.now() + days * DAY).toISOString().slice(0, 10))
+    const date = new Date(Date.now() + days * DAY).toISOString().slice(0, 10)
+    userUnlockDateRef.current = date
+    setUnlockDate(date)
   }
 
   function applyVestingTemplate(template: VestingTemplate) {
@@ -238,7 +244,9 @@ export function CreateTokenLockForm() {
     if (template === "none") {
       setVesting(false)
       setVestingStartDate("")
-      setUnlockDate("")
+      // Hand the user back their own unlock date rather than clearing the field —
+      // only the template-derived value is discarded.
+      setUnlockDate(userUnlockDateRef.current)
     } else {
       setVesting(true)
       const config = vestingTemplates[template]
@@ -493,7 +501,10 @@ export function CreateTokenLockForm() {
             type="date"
             min={minDate}
             value={unlockDate}
-            onChange={(e) => setUnlockDate(e.target.value)}
+            onChange={(e) => {
+              userUnlockDateRef.current = e.target.value
+              setUnlockDate(e.target.value)
+            }}
           />
           <div className="flex flex-wrap gap-2">
             {presets.map((p) => (
