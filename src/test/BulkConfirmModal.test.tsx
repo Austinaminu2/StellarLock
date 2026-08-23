@@ -104,6 +104,16 @@ describe("BulkConfirmModal", () => {
     expect(screen.getByRole("button", { name: /confirm transfer/i })).not.toBeDisabled()
   })
 
+  it("keeps confirm button disabled for a 56-char string with an invalid checksum", async () => {
+    const user = userEvent.setup()
+    render(<BulkConfirmModal action="transfer" locks={[lock1]} onConfirm={onConfirm} onClose={onClose} />)
+    const addressInput = screen.getByPlaceholderText("G…")
+    const badChecksum = "GABC1234GABC1234GABC1234GABC1234GABC1234GABC1234GABC1234"
+    expect(badChecksum).toHaveLength(56)
+    await user.type(addressInput, badChecksum)
+    expect(screen.getByRole("button", { name: /confirm transfer/i })).toBeDisabled()
+  })
+
   it("keeps confirm button disabled for a 55-char address", async () => {
     const user = userEvent.setup()
     render(<BulkConfirmModal action="transfer" locks={[lock1]} onConfirm={onConfirm} onClose={onClose} />)
