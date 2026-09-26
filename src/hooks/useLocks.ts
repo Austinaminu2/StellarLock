@@ -72,6 +72,13 @@ export function useLockCountByToken(tokenAddress: string | undefined) {
   }, [tokenAddress])
 }
 
+/**
+ * Upper bound used when a view needs a user's complete lock set (e.g. for
+ * client-side filtering or aggregate stats). The on-chain contract paginates
+ * by u32 so 10_000 is safe and well within practical limits.
+ */
+export const ALL_LOCKS_LIMIT = 10_000
+
 /** Connected user's locks, split into created vs received (token + LP combined). */
 export function useMyLocks(address: string | null, offset = 0, limit = 50) {
   return useAsync(async () => {
@@ -117,10 +124,6 @@ export interface MyLocksStats {
 }
 
 export function useMyLocksStats(address: string | null) {
-  // Large enough to cover any realistic wallet; the on-chain contract
-  // paginates by u32 so 10_000 is safe and well within practical limits.
-  const ALL_LOCKS_LIMIT = 10_000
-
   return useAsync(async (): Promise<MyLocksStats> => {
     if (!address) return { totalValue: 0, unlockable: 0 }
 

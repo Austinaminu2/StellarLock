@@ -10,7 +10,9 @@
     "dismiss": "Descartar",
     "you": "Tú",
     "stellar": "Stellar",
-    "skipToContent": "Ir al contenido principal"
+    "skipToContent": "Ir al contenido principal",
+    "pause": "Pausar",
+    "resume": "Reanudar"
   },
   "nav": {
     "createLock": "Crear bloqueo",
@@ -164,6 +166,7 @@
     "extendLock": "Extender bloqueo",
     "newUnlockDate": "Nueva fecha de desbloqueo",
     "extendHint": "Debe ser posterior a la fecha de desbloqueo actual. Los bloqueos solo pueden extenderse, nunca acortarse.",
+    "extendDateMustBeAfter": "Debe ser posterior a la fecha de desbloqueo actual ({{date}}).",
     "confirmExtension": "Confirmar extensión",
     "transferBeneficiary": "Transferir beneficiario",
     "newBeneficiary": "Nueva dirección de beneficiario",

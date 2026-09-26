@@ -10,7 +10,9 @@
     "dismiss": "关闭",
     "you": "你",
     "stellar": "Stellar",
-    "skipToContent": "跳转到主要内容"
+    "skipToContent": "跳转到主要内容",
+    "pause": "暂停",
+    "resume": "继续"
   },
   "nav": {
     "createLock": "创建锁定",
@@ -164,6 +166,7 @@
     "extendLock": "延长锁定",
     "newUnlockDate": "新解锁日期",
     "extendHint": "必须晚于当前解锁日期。锁定只能延长，不能缩短。",
+    "extendDateMustBeAfter": "必须晚于当前解锁日期（{{date}}）。",
     "confirmExtension": "确认延长",
     "transferBeneficiary": "转移受益人",
     "newBeneficiary": "新受益人地址",

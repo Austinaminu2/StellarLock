@@ -4,7 +4,7 @@ import { Plus, Wallet, Layers, Search, CheckSquare, LayoutGrid, Table2, Download
 import { Helmet } from "react-helmet-async"
 import { useTranslation } from "react-i18next"
 import { useWallet } from "@/hooks/useWallet"
-import { useMyLocks, useMyLocksStats } from "@/hooks/useLocks"
+import { ALL_LOCKS_LIMIT, useMyLocks, useMyLocksStats } from "@/hooks/useLocks"
 import { extendLock, transferBeneficiary } from "@/lib/token-locker"
 import { extendLpLock, transferLpBeneficiary } from "@/lib/lp-locker"
 import { exportToCSV, exportToJSON } from "@/lib/export"
@@ -51,7 +51,9 @@ export function MyLocks() {
   const { address, signTransaction } = useWallet()
   const navigate = useNavigate()
   const [page, setPage] = useState(1)
-  const { data, loading, error, reload } = useMyLocks(address, (page - 1) * PAGE_SIZE, PAGE_SIZE)
+  // Fetch the full lock set so search/status/kind filters apply across every
+  // lock, not just the current page; pagination is done client-side below.
+  const { data, loading, error, reload } = useMyLocks(address, 0, ALL_LOCKS_LIMIT)
   const { data: statsData, loading: statsLoading } = useMyLocksStats(address)
   const [tab, setTab] = useState<Tab>("created")
   const [search, setSearch] = useState("")
@@ -81,7 +83,6 @@ export function MyLocks() {
   }, [totalCreated, statsData])
 
   const rawList = tab === "created" ? created : received
-  const totalForTab = tab === "created" ? totalCreated : totalReceived
 
   function handleTabChange(v: string) {
     setTab(v as Tab)
@@ -110,9 +111,17 @@ export function MyLocks() {
       })
   }, [rawList, search, statusFilter, kindFilter, sortKey])
 
+  // Clamp in case the filtered list shrinks (e.g. after a reload) below the current page.
+  const totalPages = Math.max(1, Math.ceil(filteredList.length / PAGE_SIZE))
+  const currentPage = Math.min(page, totalPages)
+  const pagedList = useMemo(
+    () => filteredList.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE),
+    [filteredList, currentPage],
+  )
+
   const selectedLocks = useMemo(() => filteredList.filter((l) => selectedIds.has(l.id)), [filteredList, selectedIds])
 
-  const allSelected = filteredList.length > 0 && filteredList.every((l) => selectedIds.has(l.id))
+  const allSelected = pagedList.length > 0 && pagedList.every((l) => selectedIds.has(l.id))
 
   function toggleSelect(id: string, checked: boolean) {
     setSelectedIds((prev) => {
@@ -127,7 +136,7 @@ export function MyLocks() {
     if (allSelected) {
       setSelectedIds(new Set())
     } else {
-      setSelectedIds(new Set(filteredList.map((l) => l.id)))
+      setSelectedIds(new Set(pagedList.map((l) => l.id)))
     }
   }
 
@@ -397,7 +406,7 @@ export function MyLocks() {
         </div>
 
         <LockListView
-          locks={filteredList}
+          locks={pagedList}
           loading={loading}
           error={error}
           onRetry={reload}
@@ -409,7 +418,7 @@ export function MyLocks() {
           viewMode={viewMode}
         />
 
-        <Pagination page={page} pageSize={PAGE_SIZE} total={totalForTab} onChange={setPage} />
+        <Pagination page={currentPage} pageSize={PAGE_SIZE} total={filteredList.length} onChange={setPage} />
 
         {/* Bulk actions toolbar */}
         {selectMode && (

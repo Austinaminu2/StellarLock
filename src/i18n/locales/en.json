@@ -10,7 +10,9 @@
     "dismiss": "Dismiss",
     "you": "You",
     "stellar": "Stellar",
-    "skipToContent": "Skip to main content"
+    "skipToContent": "Skip to main content",
+    "pause": "Pause",
+    "resume": "Resume"
   },
   "nav": {
     "createLock": "Create Lock",
@@ -164,6 +166,7 @@
     "extendLock": "Extend lock",
     "newUnlockDate": "New unlock date",
     "extendHint": "Must be later than the current unlock date. Locks can only be extended, never shortened.",
+    "extendDateMustBeAfter": "Must be later than the current unlock date ({{date}}).",
     "confirmExtension": "Confirm extension",
     "transferBeneficiary": "Transfer beneficiary",
     "newBeneficiary": "New beneficiary address",

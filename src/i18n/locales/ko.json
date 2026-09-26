@@ -10,7 +10,9 @@
     "dismiss": "닫기",
     "you": "나",
     "stellar": "Stellar",
-    "skipToContent": "주요 콘텐츠로 건너뛰기"
+    "skipToContent": "주요 콘텐츠로 건너뛰기",
+    "pause": "일시정지",
+    "resume": "재개"
   },
   "nav": {
     "createLock": "잠금 생성",
@@ -164,6 +166,7 @@
     "extendLock": "잠금 연장",
     "newUnlockDate": "새 잠금 해제 날짜",
     "extendHint": "현재 잠금 해제 날짜보다 늦어야 합니다. 잠금은 연장만 가능하며, 절대 단축할 수 없습니다.",
+    "extendDateMustBeAfter": "현재 잠금 해제 날짜({{date}})보다 늦어야 합니다.",
     "confirmExtension": "연장 확인",
     "transferBeneficiary": "수혜자 이전",
     "newBeneficiary": "새 수혜자 주소",

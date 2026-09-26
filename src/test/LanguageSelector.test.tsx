@@ -41,6 +41,29 @@ describe("LanguageSelector Component", () => {
     expect(screen.getByRole("menuitem", { name: "English" })).toBeInTheDocument()
   })
 
+  it("offers every shipped locale in the menu", async () => {
+    const user = userEvent.setup()
+    render(<LanguageSelector />)
+
+    await user.click(screen.getByRole("button", { name: /select language/i }))
+
+    for (const label of ["English", "Español", "한국어", "Türkçe", "中文"]) {
+      expect(screen.getByRole("menuitem", { name: label })).toBeInTheDocument()
+    }
+  })
+
+  it("switches to a non-English locale on selection", async () => {
+    const user = userEvent.setup()
+    render(<LanguageSelector />)
+
+    await user.click(screen.getByRole("button", { name: /select language/i }))
+    await user.click(screen.getByRole("menuitem", { name: "Türkçe" }))
+
+    await act(async () => {
+      await waitFor(() => expect(i18n.language).toBe("tr"))
+    })
+  })
+
   it("closes the language menu when the toggle is clicked again", async () => {
     const user = userEvent.setup()
     render(<LanguageSelector />)

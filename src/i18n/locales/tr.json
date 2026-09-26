@@ -10,7 +10,9 @@
     "dismiss": "Kapat",
     "you": "Sen",
     "stellar": "Stellar",
-    "skipToContent": "Ana içeriğe geç"
+    "skipToContent": "Ana içeriğe geç",
+    "pause": "Duraklat",
+    "resume": "Devam et"
   },
   "nav": {
     "createLock": "Kilit Oluştur",
@@ -164,6 +166,7 @@
     "extendLock": "Kilidi uzat",
     "newUnlockDate": "Yeni kilit açma tarihi",
     "extendHint": "Mevcut kilit açma tarihinden sonra olmalıdır. Kilitler yalnızca uzatılabilir, asla kısaltılamaz.",
+    "extendDateMustBeAfter": "Mevcut kilit açma tarihinden ({{date}}) sonra olmalıdır.",
     "confirmExtension": "Uzatmayı onayla",
     "transferBeneficiary": "Lehdarı devret",
     "newBeneficiary": "Yeni lehdar adresi",
