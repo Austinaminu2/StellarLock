@@ -23,7 +23,7 @@ Locks SEP-41 tokens with an optional linear vesting schedule.
 
 **Split locks** (`create_split_lock`)
 - Lock one token amount, split across 2–10 beneficiaries via basis-point shares (must sum to 10 000)
-- Each beneficiary receives an independent `Lock` sub-lock with their proportional amount; integer-division remainder goes to the last beneficiary (see [ADR-010](../docs/adr/ADR-010-split-lock-allocation.md))
+- Each beneficiary receives an independent `Lock` sub-lock with their proportional amount; integer-division remainder goes to the last beneficiary (see [ADR-011](../docs/adr/ADR-011-split-lock-allocation.md))
 - An optional vesting schedule applies uniformly to every sub-lock in the group
 - The returned `group_id` is also the lock id of the first sub-lock; use `get_split_group` to enumerate all sub-lock ids
 - Storage layout additions: `SplitGroup(u64)` — split group record by group_id; `SplitByCreator(Address)` — index of split group ids per creator
@@ -51,7 +51,7 @@ Locks LP pool share tokens from Aquarius or Soroswap with optional linear vestin
 
 **Split locks** (`create_split_lock`)
 - Transfer one pool-share token amount, split across 2–10 beneficiaries via basis-point shares (must sum to 10 000)
-- Each beneficiary receives an independent `LpLock` sub-lock with their proportional amount; integer-division remainder goes to the last beneficiary (see [ADR-010](../docs/adr/ADR-010-split-lock-allocation.md))
+- Each beneficiary receives an independent `LpLock` sub-lock with their proportional amount; integer-division remainder goes to the last beneficiary (see [ADR-011](../docs/adr/ADR-011-split-lock-allocation.md))
 - An optional vesting schedule applies uniformly to every sub-lock in the group
 - The returned `group_id` is also the lock id of the first sub-lock; use `get_split_group` to enumerate all sub-lock ids
 - TVL is counted once (total amount) and global lock count increments by the number of sub-locks

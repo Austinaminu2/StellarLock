@@ -2,7 +2,7 @@
 
 Token and LP liquidity lock platform built on [Stellar Soroban](https://soroban.stellar.org). Lock tokens or LP pool shares in an immutable on-chain contract, then share a public verifiable link so your community knows the liquidity can't be rugged.
 
-![Landing](landing.png)
+![Landing](docs/screenshots/landing.png)
 
 ## Features
 
@@ -192,6 +192,11 @@ See [docs/indexer-architecture.md](docs/indexer-architecture.md) for event idemp
 | `TOKEN_LOCKER_CONTRACT`, `LP_LOCKER_CONTRACT` | indexer | Contracts to index. At least one is required. |
 | `RESEND_API_KEY`, `EMAIL_FROM` | notifier | Email delivery. Emails are skipped if the key is unset. |
 | `WEBHOOK_SECRET` | notifier | HMAC key for the `X-StellarLock-Signature` header |
+| `INDEXER_POLL_INTERVAL_MS`, `INDEXER_RPC_TIMEOUT_MS` | indexer | Poll interval (default 10s) and per-RPC-call timeout (default 15s) |
+| `NOTIFIER_INTERVAL_MS` | notifier | Run interval (default 1h) |
+| `PUBLIC_APP_URL` | notifier | Base URL for links in reminders (default `https://app.stellarlock.xyz`) |
+
+The full list, with required/optional status and defaults, is in the **Indexer & notifier (server-side)** section of [`.env.example`](.env.example).
 
 ## Smart Contracts
 
@@ -269,8 +274,8 @@ Same shape as Token Locker, minus vesting, plus `dex`, `token_a`, `token_b` fiel
 
 | | |
 |---|---|
-| ![Create](create.png) | ![Explorer](explorer.png) |
-| ![My Locks](mylocks.png) | ![Detail](detail.png) |
+| ![Create](docs/screenshots/create.png) | ![Explorer](docs/screenshots/explorer.png) |
+| ![My Locks](docs/screenshots/mylocks.png) | ![Detail](docs/screenshots/detail.png) |
 
 ## Upgrade Policy
 
@@ -301,6 +306,10 @@ Admin ownership can be transferred without changing the upgrade timelock. The cu
 `pause()` and `unpause()` are emergency controls on each contract independently. While paused, non-admin write operations such as lock creation, withdrawal, extension, and beneficiary transfer fail with `ContractPaused`; read-only queries and admin/governance functions remain available. A pending upgrade can still execute after its timelock, so operators should cancel an unsafe pending upgrade separately. See [docs/incident-response.md](docs/incident-response.md) for the response workflow.
 
 > The upgrade path exists solely for critical security fixes. User lock funds are held in persistent storage and are unaffected by WASM upgrades.
+
+## Documentation
+
+Architecture notes, runbooks, ADRs and other project documentation are indexed in **[docs/README.md](docs/README.md)**.
 
 ## Troubleshooting
 
