@@ -63,8 +63,8 @@ Both `TokenLocker` and `LpLocker` expose the same set of gated entry points. All
 ### 4. Storage TTL Expiry Risks
 
 - [x] **Status: Mitigated** — Soroban persistent storage entries have a TTL. Active locks are protected against non-renewal.
-- [x] **Recommendation (Implemented)**: Automatic TTL extension on read/write operations is implemented via `env.storage().persistent().extend_ttl()` for active locks (see [docs/storage-optimization-148.md](storage-optimization-148.md)). Both contracts expose a permissionless `bump_lock_ttl(id)` entry point allowing anyone to keep lock data alive.
-- [x] **Recommendation (Implemented)**: Documented TTL policy in [docs/storage-optimization-148.md](storage-optimization-148.md).
+- [x] **Recommendation (Implemented)**: Automatic TTL extension on read/write operations is implemented via `env.storage().persistent().extend_ttl()` for active locks (see [docs/storage-optimization.md](storage-optimization.md)). Both contracts expose a permissionless `bump_lock_ttl(id)` entry point allowing anyone to keep lock data alive.
+- [x] **Recommendation (Implemented)**: Documented TTL policy in [docs/storage-optimization.md](storage-optimization.md).
 
 
 ### 5. Cross-Contract Call Safety
@@ -104,7 +104,7 @@ Both `TokenLocker` and `LpLocker` expose the same set of gated entry points. All
 ## Pre-Mainnet Checklist
 
 - [ ] Engage a professional Soroban audit firm (e.g., OtterSec, Halborn, CertiK)
-- [x] Implement storage TTL extension strategy (selective TTL renewal per [docs/storage-optimization-148.md](storage-optimization-148.md) and permissionless `bump_lock_ttl` entry points)
+- [x] Implement storage TTL extension strategy (selective TTL renewal per [docs/storage-optimization.md](storage-optimization.md) and permissionless `bump_lock_ttl` entry points)
 - [ ] Add fuzzing tests for vesting arithmetic edge cases
 - [ ] Load test with 1000+ locks per address to validate pagination under resource limits
 - [ ] Set up on-chain monitoring for unexpected state transitions

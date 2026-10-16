@@ -90,6 +90,12 @@ jobs:
       - name: Type Check
         run: pnpm exec tsc -b
 
+      # Reports unused files (see knip.json). Non-blocking for now so existing
+      # dead code doesn't fail CI; tighten once the report is clean (#990).
+      - name: Unused files (knip)
+        continue-on-error: true
+        run: pnpm exec knip --include files
+
       - name: Unit / component tests
         run: pnpm test
 

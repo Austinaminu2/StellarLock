@@ -1,0 +1,19 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": [
+    "src/main.tsx",
+    "indexer/index.ts",
+    "indexer/notifier.ts",
+    "api/**/*.ts",
+    "src/**/*.stories.{ts,tsx}",
+    "{src,indexer,api}/**/*.test.{ts,tsx}",
+    "e2e/**/*.{ts,tsx}"
+  ],
+  "project": [
+    "src/**/*.{ts,tsx}",
+    "indexer/**/*.ts",
+    "api/**/*.ts",
+    "e2e/**/*.ts"
+  ],
+  "ignore": ["contracts/**"]
+}
