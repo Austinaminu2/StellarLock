@@ -192,6 +192,11 @@ See [docs/indexer-architecture.md](docs/indexer-architecture.md) for event idemp
 | `TOKEN_LOCKER_CONTRACT`, `LP_LOCKER_CONTRACT` | indexer | Contracts to index. At least one is required. |
 | `RESEND_API_KEY`, `EMAIL_FROM` | notifier | Email delivery. Emails are skipped if the key is unset. |
 | `WEBHOOK_SECRET` | notifier | HMAC key for the `X-StellarLock-Signature` header |
+| `INDEXER_POLL_INTERVAL_MS`, `INDEXER_RPC_TIMEOUT_MS` | indexer | Poll interval (default 10s) and per-RPC-call timeout (default 15s) |
+| `NOTIFIER_INTERVAL_MS` | notifier | Run interval (default 1h) |
+| `PUBLIC_APP_URL` | notifier | Base URL for links in reminders (default `https://app.stellarlock.xyz`) |
+
+The full list, with required/optional status and defaults, is in the **Indexer & notifier (server-side)** section of [`.env.example`](.env.example).
 
 ## Smart Contracts
 
