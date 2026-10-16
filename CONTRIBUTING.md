@@ -7,7 +7,7 @@ We are committed to providing a welcoming and inclusive community. Please review
 ## Prerequisites
 
 - **Node.js** 22+
-- **pnpm** — `npm install -g pnpm`
+- **pnpm 9** — `npm install -g pnpm@9` (CI and the lockfile use pnpm 9; newer majors may rewrite `pnpm-lock.yaml`)
 - **Rust** — `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
 - **Stellar CLI** — `cargo install stellar-cli --features opt`
 - **Freighter** browser extension set to Testnet
@@ -59,7 +59,8 @@ Paste the printed contract IDs into `src/lib/stellar.ts`.
 
 ## Pull Requests
 
-- Use conventional commits: `feat:`, `fix:`, `docs:`, `refactor:`, `chore:`
+- Use conventional commits — see [Commit messages](#commit-messages) for allowed types and scopes
+- Fill in the pull request template, including the `Closes #N` line and checklist
 - Keep PRs focused on a single concern
 - Reference the issue in the PR body with `Closes #N`
 - Squash merge when ready
@@ -117,16 +118,26 @@ Branch protection is configured via `.github/scripts/apply-branch-protection.sh`
 To update protection rules, a repository admin must use the GitHub UI (**Settings → Branches**) or the GitHub API. Do not bypass reviews with admin overrides on contract-touching PRs.
 
 
-## Commit Message Format
-We use [Conventional Commits](https://www.conventionalcommits.org/).
+## Commit messages
 
-Format: `type(scope): description`
+We use [Conventional Commits](https://www.conventionalcommits.org/), enforced by `commitlint.config.js`. The husky `commit-msg` hook rejects non-conforming messages locally, and the **Commit Message Lint** CI job checks every commit in a PR.
 
-Allowed types: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `ci`
-Allowed scopes: `contract`, `frontend`, `ci`, `docs`
+Format: `type(scope): description` — the scope is optional, but if you give one it must be from the list below.
 
-Examples:
-- `feat(frontend): add export button to My Locks page`
-- `fix(contract): prevent overflow in extend lock duration`
+**Allowed types** (from `@commitlint/config-conventional`): `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`
+
+**Allowed scopes** — only these four:
+
+| Scope | Use for | Example |
+|---|---|---|
+| `contract` | Soroban contracts in `contracts/` | `fix(contract): prevent overflow in extend lock duration` |
+| `frontend` | Anything under `src/`, plus `api/` and `indexer/` | `feat(frontend): add export button to My Locks page` |
+| `ci` | GitHub Actions, husky hooks, repo tooling | `chore(ci): cache pnpm store in e2e job` |
+| `docs` | `docs/`, README, CONTRIBUTING, ADRs | `docs(docs): add ADR for split lock allocation` |
+
+Scopes like `i18n`, `deps`, `ui` or `api` are **rejected**. Use the closest allowed scope instead, or omit the scope:
+
+- ❌ `fix(i18n): correct French translation` → ✅ `fix(frontend): correct French translation`
+- ❌ `build(deps): bump stellar-sdk` → ✅ `build: bump stellar-sdk`
 
 Run `pnpm changelog` to generate CHANGELOG.md, or `pnpm changelog:release` when cutting a tagged release.
