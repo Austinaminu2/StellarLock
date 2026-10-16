@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react"
+import { fn } from "@storybook/test"
 import { ConfirmLockModal, type LockConfirmData } from "./ConfirmLockModal"
 
 const meta = {
@@ -46,8 +47,8 @@ const lpLockData: LockConfirmData = {
 export const TokenLock: Story = {
   args: {
     data: tokenLockData,
-    onConfirm: () => console.log("Confirm clicked"),
-    onCancel: () => console.log("Cancel clicked"),
+    onConfirm: fn(),
+    onCancel: fn(),
     loading: false,
     approving: false,
   },
@@ -60,9 +61,9 @@ export const TokenLockWithApprovalNeeded: Story = {
       needsApproval: true,
       allowance: 0,
     },
-    onConfirm: () => console.log("Confirm clicked"),
-    onApprove: () => console.log("Approve clicked"),
-    onCancel: () => console.log("Cancel clicked"),
+    onConfirm: fn(),
+    onApprove: fn(),
+    onCancel: fn(),
     loading: false,
     approving: false,
   },
@@ -74,8 +75,8 @@ export const TokenLockWithInsufficientBalance: Story = {
       ...tokenLockData,
       balance: 500,
     },
-    onConfirm: () => console.log("Confirm clicked"),
-    onCancel: () => console.log("Cancel clicked"),
+    onConfirm: fn(),
+    onCancel: fn(),
     loading: false,
     approving: false,
   },
@@ -84,8 +85,8 @@ export const TokenLockWithInsufficientBalance: Story = {
 export const LPLock: Story = {
   args: {
     data: lpLockData,
-    onConfirm: () => console.log("Confirm clicked"),
-    onCancel: () => console.log("Cancel clicked"),
+    onConfirm: fn(),
+    onCancel: fn(),
     loading: false,
     approving: false,
   },
@@ -98,9 +99,9 @@ export const Approving: Story = {
       needsApproval: true,
       allowance: 0,
     },
-    onConfirm: () => console.log("Confirm clicked"),
-    onApprove: () => console.log("Approve clicked"),
-    onCancel: () => console.log("Cancel clicked"),
+    onConfirm: fn(),
+    onApprove: fn(),
+    onCancel: fn(),
     loading: false,
     approving: true,
   },
@@ -109,8 +110,8 @@ export const Approving: Story = {
 export const Confirming: Story = {
   args: {
     data: tokenLockData,
-    onConfirm: () => console.log("Confirm clicked"),
-    onCancel: () => console.log("Cancel clicked"),
+    onConfirm: fn(),
+    onCancel: fn(),
     loading: true,
     approving: false,
   },

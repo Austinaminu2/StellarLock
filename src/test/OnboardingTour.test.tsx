@@ -1,7 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest"
 import { act, render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
-import { OnboardingTour, startOnboardingTour } from "@/components/onboarding/OnboardingTour"
+import { OnboardingTour } from "@/components/onboarding/OnboardingTour"
+import { startOnboardingTour } from "@/components/onboarding/startOnboardingTour"
 
 const STORAGE_KEY = "stellarlock:onboarding_tour_completed"
 const AUTO_OPEN_DELAY_MS = 600

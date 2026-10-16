@@ -2,9 +2,9 @@ import { useCallback, useEffect, useState } from "react"
 import { Wallet, Lock, TrendingUp, Compass, X } from "lucide-react"
 import { Button } from "@/components/ui/Button"
 import { cn } from "@/lib/utils"
+import { START_EVENT } from "./startOnboardingTour"
 
 const STORAGE_KEY = "stellarlock:onboarding_tour_completed"
-const START_EVENT = "stellarlock:start-onboarding-tour"
 const AUTO_OPEN_DELAY_MS = 600
 
 interface TourStep {
@@ -39,12 +39,6 @@ const STEPS: TourStep[] = [
       "The Explorer page lets anyone look up a token or pool to see its total locked value, active locks, and next unlock date — a quick way to verify a project's locks are real before you trust it.",
   },
 ]
-
-/** Trigger the onboarding tour from anywhere in the app (e.g. a "Replay tour" button in Settings). */
-export function startOnboardingTour() {
-  if (typeof window === "undefined") return
-  window.dispatchEvent(new Event(START_EVENT))
-}
 
 function hasCompletedTour(): boolean {
   try {

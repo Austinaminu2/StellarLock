@@ -1,6 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react"
+import { fn } from "@storybook/test"
 import { BulkConfirmModal } from "./BulkConfirmModal"
 import type { Lock } from "@/types/lock"
+import type { ComponentProps } from "react"
+
+type OnConfirm = ComponentProps<typeof BulkConfirmModal>["onConfirm"]
 
 const meta = {
   title: "Locks/BulkConfirmModal",
@@ -92,11 +96,8 @@ export const ExtendPending: Story = {
   args: {
     action: "extend",
     locks: mockLocks,
-    onConfirm: () => {
-      console.log("Confirm extend clicked")
-      return Promise.resolve()
-    },
-    onClose: () => console.log("Close clicked"),
+    onConfirm: fn(() => Promise.resolve()),
+    onClose: fn(),
   },
 }
 
@@ -104,11 +105,8 @@ export const TransferPending: Story = {
   args: {
     action: "transfer",
     locks: mockLocks.slice(0, 2),
-    onConfirm: () => {
-      console.log("Confirm transfer clicked")
-      return Promise.resolve()
-    },
-    onClose: () => console.log("Close clicked"),
+    onConfirm: fn(() => Promise.resolve()),
+    onClose: fn(),
   },
 }
 
@@ -116,11 +114,8 @@ export const ExtendSingleLock: Story = {
   args: {
     action: "extend",
     locks: mockLocks.slice(0, 1),
-    onConfirm: () => {
-      console.log("Confirm extend clicked")
-      return Promise.resolve()
-    },
-    onClose: () => console.log("Close clicked"),
+    onConfirm: fn(() => Promise.resolve()),
+    onClose: fn(),
   },
 }
 
@@ -128,8 +123,7 @@ export const TransferInProgress: Story = {
   args: {
     action: "transfer",
     locks: mockLocks,
-    onConfirm: async (value, onItemSettled) => {
-      console.log("Confirm transfer with value:", value)
+    onConfirm: fn<OnConfirm>(async (_value, onItemSettled) => {
       // Simulate processing items
       await new Promise((resolve) => setTimeout(resolve, 500))
       onItemSettled("1", { status: "success" })
@@ -137,8 +131,8 @@ export const TransferInProgress: Story = {
       onItemSettled("2", { status: "success" })
       await new Promise((resolve) => setTimeout(resolve, 500))
       onItemSettled("3", { status: "error", error: "Insufficient balance" })
-    },
-    onClose: () => console.log("Close clicked"),
+    }),
+    onClose: fn(),
   },
 }
 
@@ -146,15 +140,14 @@ export const ExtendCompleted: Story = {
   args: {
     action: "extend",
     locks: mockLocks,
-    onConfirm: async (value, onItemSettled) => {
-      console.log("Confirm extend with date:", value)
+    onConfirm: fn<OnConfirm>(async (_value, onItemSettled) => {
       // Simulate all items completed
       await new Promise((resolve) => setTimeout(resolve, 300))
       onItemSettled("1", { status: "success" })
       onItemSettled("2", { status: "success" })
       onItemSettled("3", { status: "success" })
-    },
-    onClose: () => console.log("Close clicked"),
+    }),
+    onClose: fn(),
   },
 }
 
@@ -162,14 +155,13 @@ export const TransferWithFailures: Story = {
   args: {
     action: "transfer",
     locks: mockLocks,
-    onConfirm: async (value, onItemSettled) => {
-      console.log("Confirm transfer with address:", value)
+    onConfirm: fn<OnConfirm>(async (_value, onItemSettled) => {
       // Simulate mixed results
       await new Promise((resolve) => setTimeout(resolve, 300))
       onItemSettled("1", { status: "success" })
       onItemSettled("2", { status: "error", error: "Invalid address" })
       onItemSettled("3", { status: "success" })
-    },
-    onClose: () => console.log("Close clicked"),
+    }),
+    onClose: fn(),
   },
 }

@@ -8,7 +8,7 @@ import { shortAddress } from "@/lib/utils"
 import { isValidStellarAddress } from "@/lib/stellar-address"
 import { useAddressBookUI } from "@/hooks/useAddressBookUI"
 import { NotificationPreferences } from "@/components/ui/NotificationPreferences"
-import { startOnboardingTour } from "@/components/onboarding/OnboardingTour"
+import { startOnboardingTour } from "@/components/onboarding/startOnboardingTour"
 
 export function Settings() {
   const ui = useAddressBookUI()

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react"
+import { fn } from "@storybook/test"
 import type { SplitBeneficiary } from "@/lib/split-lock"
 import { MultiBeneficiaryFields } from "./MultiBeneficiaryFields"
 
@@ -35,21 +36,21 @@ const invalidBasisPointsSum: SplitBeneficiary[] = [
 export const TwoBeneficiaries: Story = {
   args: {
     beneficiaries: twoBeneficiaries,
-    onChange: (next) => console.log("Updated beneficiaries:", next),
+    onChange: fn(),
   },
 }
 
 export const MaxBeneficiaries: Story = {
   args: {
     beneficiaries: maxBeneficiaries,
-    onChange: (next) => console.log("Updated beneficiaries:", next),
+    onChange: fn(),
   },
 }
 
 export const InvalidBasisPointsSum: Story = {
   args: {
     beneficiaries: invalidBasisPointsSum,
-    onChange: (next) => console.log("Updated beneficiaries:", next),
+    onChange: fn(),
   },
 }
 
@@ -60,6 +61,6 @@ export const EqualSplit: Story = {
       { address: validAddresses[1], shareBps: 3333 },
       { address: validAddresses[2], shareBps: 3334 },
     ],
-    onChange: (next) => console.log("Updated beneficiaries:", next),
+    onChange: fn(),
   },
 }
