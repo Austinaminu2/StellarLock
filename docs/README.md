@@ -28,3 +28,4 @@ Index of the project documentation in `docs/`. Check here before writing a new d
 | [roadmap-notes.md](./roadmap-notes.md) | Internal planning notes on open feature gaps (batch lock creation, Arabic localization) |
 | [bounty-payout-policy-357.md](./bounty-payout-policy-357.md) | Contribution and bounty payout policy (issue #357) |
 | [issue-713-bulk-partial-failure.md](./issue-713-bulk-partial-failure.md) | Analysis of untested partial-failure handling in MyLocks bulk extend/transfer (issue #713) |
+| [screenshots/](./screenshots/) | App screenshots embedded in the main README |
