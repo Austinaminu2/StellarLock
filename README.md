@@ -2,7 +2,7 @@
 
 Token and LP liquidity lock platform built on [Stellar Soroban](https://soroban.stellar.org). Lock tokens or LP pool shares in an immutable on-chain contract, then share a public verifiable link so your community knows the liquidity can't be rugged.
 
-![Landing](landing.png)
+![Landing](docs/screenshots/landing.png)
 
 ## Features
 
@@ -274,8 +274,8 @@ Same shape as Token Locker, minus vesting, plus `dex`, `token_a`, `token_b` fiel
 
 | | |
 |---|---|
-| ![Create](create.png) | ![Explorer](explorer.png) |
-| ![My Locks](mylocks.png) | ![Detail](detail.png) |
+| ![Create](docs/screenshots/create.png) | ![Explorer](docs/screenshots/explorer.png) |
+| ![My Locks](docs/screenshots/mylocks.png) | ![Detail](docs/screenshots/detail.png) |
 
 ## Upgrade Policy
 
