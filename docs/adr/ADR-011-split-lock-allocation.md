@@ -1,4 +1,4 @@
-# ADR-010: Split-Lock Allocation Model (BPS Shares, Dust Assignment, group_id Reuse)
+# ADR-011: Split-Lock Allocation Model (BPS Shares, Dust Assignment, group_id Reuse)
 
 ## Status
 Accepted

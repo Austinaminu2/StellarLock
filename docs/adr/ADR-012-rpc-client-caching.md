@@ -1,4 +1,4 @@
-# ADR-010: RpcClient — In-Flight Deduplication, Response Cache, Concurrency Queue, and Retry
+# ADR-012: RpcClient — In-Flight Deduplication, Response Cache, Concurrency Queue, and Retry
 
 ## Status
 Accepted
